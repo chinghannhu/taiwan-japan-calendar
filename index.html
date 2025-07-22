@@ -40,21 +40,24 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
-            color: white;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #333333;
             padding: 30px;
             text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            text-shadow: none;
+            color: #333333;
         }
 
         .subtitle {
-            opacity: 0.95;
+            opacity: 0.7;
             font-size: 1.1em;
+            color: #666666;
         }
 
         .controls {
@@ -65,8 +68,9 @@
 
         .control-group {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            align-items: end;
             margin-bottom: 20px;
         }
 
@@ -121,9 +125,7 @@
 
         .button-group {
             display: flex;
-            gap: 15px;
             justify-content: center;
-            flex-wrap: wrap;
         }
 
         .btn {
@@ -137,6 +139,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 24px;
         }
 
         .btn-primary {
@@ -389,18 +392,51 @@
             border-left: 4px solid #666666;
         }
 
+        .footer {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #333333;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-made {
+            font-size: 1em;
+            font-weight: 500;
+            opacity: 0.8;
+            color: #666666;
+        }
+
+        .footer-heart {
+            color: #ff4757;
+            font-size: 1.1em;
+            margin-left: 5px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @media (max-width: 1200px) {
+            .control-group {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+        }
+
         @media (max-width: 768px) {
             .control-group {
                 grid-template-columns: 1fr;
-            }
-            
-            .button-group {
-                flex-direction: column;
+                gap: 15px;
             }
             
             .btn {
                 padding: 12px 25px;
                 font-size: 1em;
+                margin-top: 15px;
             }
             
             .calendar-grid {
@@ -435,7 +471,7 @@
         }
 
         @media print {
-            .controls, .button-group {
+            .controls, .button-group, .footer {
                 display: none !important;
             }
             
@@ -456,7 +492,7 @@
     <div class="container">
         <div class="header">
             <h1>月曆生成器</h1>
-            <p class="subtitle">台灣 & 日本節日月曆</p>
+            <p class="subtitle">台灣和日本月曆</p>
         </div>
 
         <div class="controls">
@@ -499,7 +535,7 @@
                     <select id="country">
                         <option value="taiwan">台灣</option>
                         <option value="taiwan-en-full">台灣 （英文完整版）</option>
-                        <option value="taiwan-en-short">台灣 （縮寫）</option>
+                        <option value="taiwan-en-short">台灣 （英文縮寫）</option>
                         <option value="taiwan-en-abbr">台灣 （英文簡寫）</option>
                         <option value="japan">日本（振假名）</option>
                         <option value="japan-hiragana">日本（平假名）</option>
@@ -514,12 +550,12 @@
                         <option value="1" selected>星期一</option>
                     </select>
                 </div>
-            </div>
-            
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="generateCalendar()">
-                    產生月曆
-                </button>
+
+                <div class="form-group">
+                    <button class="btn btn-primary" onclick="generateCalendar()">
+                        產生月曆
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -528,6 +564,13 @@
                 正在生成月曆...
             </div>
             <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-made">
+                <span>Made in Taiwan with</span>
+                <span class="footer-heart">❤️</span>
+            </div>
         </div>
     </div>
 
@@ -666,24 +709,6 @@
                     2025: {
                         '1-1': '元日',
                         '1-13': '成人の日',
-                        '2-11': '建国記念の日',
-                        '2-23': '天皇誕生日',
-                        '3-20': '春分の日',
-                        '4-29': '昭和の日',
-                        '5-3': '憲法記念日',
-                        '5-4': 'みどりの日',
-                        '5-5': 'こどもの日',
-                        '7-21': '海の日',
-                        '8-11': '山の日',
-                        '9-15': '敬老の日',
-                        '9-23': '秋分の日',
-                        '10-13': 'スポーツの日',
-                        '11-3': '文化の日',
-                        '11-23': '勤労感謝の日'
-                    },
-                    2026: {
-                        '1-1': '元日',
-                        '1-12': '成人の日',
                         '2-11': '建国記念の日',
                         '2-23': '天皇誕生日',
                         '3-20': '春分の日',
