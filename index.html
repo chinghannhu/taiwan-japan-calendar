@@ -7,6 +7,12 @@
     <meta name="keywords" content="月曆,日曆,台灣節日,日本節日,線上工具,calendar">
     <meta name="author" content="Taiwan Japan Calendar Generator">
     <title>台灣日本月曆生成器</title>
+    
+    <!-- Google Fonts - Multi-language Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- SVG favicon (現代瀏覽器) -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <!-- PNG favicon (後備選項) -->
@@ -22,7 +28,10 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: "Sora", "Noto Sans TC", "Noto Sans JP", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
             background: #f5f5f5;
             min-height: 100vh;
             padding: 20px;
@@ -48,6 +57,8 @@
         }
 
         .header h1 {
+            font-family: "Sora", "Noto Sans TC", "Noto Sans JP", sans-serif;
+            font-weight: 700;
             font-size: 2.5em;
             margin-bottom: 10px;
             text-shadow: none;
@@ -55,6 +66,8 @@
         }
 
         .subtitle {
+            font-family: "Sora", "Noto Sans TC", "Noto Sans JP", sans-serif;
+            font-weight: 300;
             opacity: 0.7;
             font-size: 1.1em;
             color: #666666;
@@ -80,6 +93,7 @@
         }
 
         .form-group label {
+            font-family: "Sora", "Noto Sans TC", "Noto Sans JP", sans-serif;
             font-weight: 600;
             color: #333333;
             margin-bottom: 8px;
@@ -88,6 +102,8 @@
 
         .form-group select,
         .form-group input {
+            font-family: "Sora", "Noto Sans TC", "Noto Sans JP", sans-serif;
+            font-weight: 400;
             padding: 12px 20px;
             border: 2px solid rgba(0, 0, 0, 0.2);
             border-radius: 12px;
@@ -129,11 +145,12 @@
         }
 
         .btn {
+            font-family: "Sora", "Noto Sans TC", "Noto Sans JP", sans-serif;
+            font-weight: 600;
             padding: 15px 35px;
             border: none;
             border-radius: 50px;
             font-size: 1.1em;
-            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
@@ -176,12 +193,13 @@
         }
 
         .month-header {
+            font-family: "Sora", "Noto Sans TC", "Noto Sans JP", sans-serif;
+            font-weight: 600;
             background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
             color: white;
             padding: 20px;
             text-align: center;
             font-size: 1.3em;
-            font-weight: 600;
         }
 
         .calendar-table {
@@ -191,10 +209,11 @@
         }
 
         .calendar-table th {
+            font-family: "Sora", "Noto Sans TC", "Noto Sans JP", sans-serif;
+            font-weight: 600;
             background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
             padding: 12px 4px;
             font-size: 0.9em;
-            font-weight: 600;
             color: #333333;
             text-align: center;
             border-bottom: 2px solid rgba(0, 0, 0, 0.2);
@@ -220,6 +239,7 @@
         }
 
         .date-number {
+            font-family: "Sora", "Noto Sans TC", "Noto Sans JP", sans-serif;
             font-weight: 600;
             color: #333333;
             font-size: 0.95em;
@@ -227,6 +247,8 @@
         }
 
         .japanese-reading {
+            font-family: "Noto Sans JP", "Noto Sans TC", "Sora", sans-serif;
+            font-weight: 400;
             font-size: 0.6em;
             color: #666666;
             margin-top: 1px;
@@ -330,11 +352,12 @@
         }
 
         .holiday-name {
+            font-family: "Noto Sans TC", "Noto Sans JP", "Sora", sans-serif;
+            font-weight: 500;
             font-size: 0.6em;
             color: #333333;
             margin-top: 2px;
             line-height: 1.1;
-            font-weight: 500;
             word-break: break-all;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -350,6 +373,8 @@
         }
 
         .loading {
+            font-family: "Sora", "Noto Sans TC", "Noto Sans JP", sans-serif;
+            font-weight: 400;
             text-align: center;
             padding: 50px;
             color: #666666;
@@ -374,10 +399,11 @@
         }
 
         .error-message, .success-message {
+            font-family: "Sora", "Noto Sans TC", "Noto Sans JP", sans-serif;
+            font-weight: 500;
             padding: 15px 20px;
             border-radius: 20px;
             margin: 20px;
-            font-weight: 500;
         }
 
         .error-message {
@@ -402,8 +428,9 @@
         }
 
         .footer-made {
-            font-size: 1em;
+            font-family: "Sora", "Noto Sans TC", "Noto Sans JP", sans-serif;
             font-weight: 500;
+            font-size: 1em;
             opacity: 0.8;
             color: #666666;
         }
@@ -639,63 +666,6 @@
                         '5-4': 'みどりの<ruby>日<rt>ひ</rt></ruby>',
                         '5-5': 'こどもの<ruby>日<rt>ひ</rt></ruby>',
                         '7-21': '<ruby>海<rt>うみ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>',
-                        '8-11': '<ruby>山<rt>やま</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>',
-                        '9-15': '<ruby>敬老<rt>けいろう</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>',
-                        '9-23': '<ruby>秋分<rt>しゅうぶん</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>',
-                        '10-13': 'スポーツの<ruby>日<rt>ひ</rt></ruby>',
-                        '11-3': '<ruby>文化<rt>ぶんか</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>',
-                        '11-23': '<ruby>勤労感謝<rt>きんろうかんしゃ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>'
-                    },
-                    2026: {
-                        '1-1': '<ruby>元日<rt>がんじつ</rt></ruby>',
-                        '1-12': '<ruby>成人<rt>せいじん</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>',
-                        '2-11': '<ruby>建国記念<rt>けんこくきねん</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>',
-                        '2-23': '<ruby>天皇誕生日<rt>てんのうたんじょうび</rt></ruby>',
-                        '3-20': '<ruby>春分<rt>しゅんぶん</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>',
-                        '4-29': '<ruby>昭和<rt>しょうわ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>',
-                        '5-3': '<ruby>憲法記念日<rt>けんぽうきねんび</rt></ruby>',
-                        '5-4': 'みどりの<ruby>日<rt>ひ</rt></ruby>',
-                        '5-5': 'こどもの<ruby>日<rt>ひ</rt></ruby>',
-                        '7-21': '<ruby>海<rt>うみ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>',
-                        '8-11': '<ruby>山<rt>やま</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>',
-                        '9-15': '<ruby>敬老<rt>けいろう</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>',
-                        '9-23': '<ruby>秋分<rt>しゅうぶん</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>',
-                        '10-13': 'スポーツの<ruby>日<rt>ひ</rt></ruby>',
-                        '11-3': '<ruby>文化<rt>ぶんか</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>',
-                        '11-23': '<ruby>勤労感謝<rt>きんろうかんしゃ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>'
-                    }
-                },
-                // 平假名版本（簡化版）
-                hiragana: {
-                    2025: {
-                        '1-1': 'がんじつ',
-                        '1-13': 'せいじんのひ',
-                        '2-11': 'けんこくきねんのひ',
-                        '2-23': 'てんのうたんじょうび',
-                        '3-20': 'しゅんぶんのひ',
-                        '4-29': 'しょうわのひ',
-                        '5-3': 'けんぽうきねんび',
-                        '5-4': 'みどりのひ',
-                        '5-5': 'こどものひ',
-                        '7-21': 'うみのひ',
-                        '8-11': 'やまのひ',
-                        '9-15': 'けいろうのひ',
-                        '9-23': 'しゅうぶんのひ',
-                        '10-13': 'スポーツのひ',
-                        '11-3': 'ぶんかのひ',
-                        '11-23': 'きんろうかんしゃのひ'
-                    },
-                    2026: {
-                        '1-1': 'がんじつ',
-                        '1-12': 'せいじんのひ',
-                        '2-11': 'けんこくきねんのひ',
-                        '2-23': 'てんのうたんじょうび',
-                        '3-20': 'しゅんぶんのひ',
-                        '4-29': 'しょうわのひ',
-                        '5-3': 'けんぽうきねんび',
-                        '5-4': 'みどりのひ',
-                        '5-5': 'こどものひ',
-                        '7-21': 'うみのひ',
                         '8-11': 'やまのひ',
                         '9-15': 'けいろうのひ',
                         '9-23': 'しゅうぶんのひ',
