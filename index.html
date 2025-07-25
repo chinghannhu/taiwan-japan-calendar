@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="台灣日本月曆生成器 - 支援多語言的線上月曆工具，包含節日顯示。">
-    <meta name="keywords" content="月曆,日曆,台灣節日,日本節日,線上工具,calendar">
+    <meta name="description" content="台灣日本月曆生成器 - 支援多語言的線上月曆工具，包含節日顯示、日本年號及台灣民國紀年。">
+    <meta name="keywords" content="月曆,日曆,台灣節日,日本節日,線上工具,calendar,民國紀年,日本年號">
     <meta name="author" content="Taiwan Japan Calendar Generator">
     <title>台灣日本月曆生成器</title>
     
@@ -209,6 +209,13 @@
             padding: 20px;
             text-align: center;
             font-size: 1.3em;
+        }
+
+        .era-info {
+            font-size: 0.8em;
+            opacity: 0.9;
+            margin-top: 5px;
+            line-height: 1.3;
         }
 
         .calendar-table {
@@ -528,14 +535,14 @@
     <div class="container">
         <div class="header">
            <h1><a href="#" onclick="goHome()">月曆生成器</a></h1>
-            <p class="subtitle">台灣和日本月曆</p>
+            <p class="subtitle">台灣和日本月曆（含完整年號對照）</p>
         </div>
 
         <div class="controls">
             <div class="control-group">
                 <div class="form-group">
                     <label for="year">年份</label>
-                    <input type="number" id="year" min="2020" max="2030" value="2025">
+                    <input type="number" id="year" min="1661" max="2030" value="2025">
                 </div>
                 
                 <div class="form-group">
@@ -612,15 +619,95 @@
 
     <script>
          // Home function
-                function goHome() {
-                    // Clear all inputs and reset form
-                    clearAll();
-                    // Scroll to top
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+        function goHome() {
+            // Clear all inputs and reset form
+            clearAll();
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 台灣歷史年號資料
+        const taiwanEras = [
+            // 明鄭時期 (永曆年號)
+            { name: '永曆', start: new Date(1661, 0, 1), end: new Date(1683, 11, 31), baseYear: 1647 }, // 永曆1年=1647年
+            // 清朝年號
+            { name: '康熙', start: new Date(1683, 0, 1), end: new Date(1722, 11, 31), baseYear: 1662 }, // 康熙1年=1662年，但台灣從1683年開始
+            { name: '雍正', start: new Date(1723, 0, 1), end: new Date(1735, 11, 31), baseYear: 1723 },
+            { name: '乾隆', start: new Date(1736, 0, 1), end: new Date(1795, 11, 31), baseYear: 1736 },
+            { name: '嘉慶', start: new Date(1796, 0, 1), end: new Date(1820, 11, 31), baseYear: 1796 },
+            { name: '道光', start: new Date(1821, 0, 1), end: new Date(1850, 11, 31), baseYear: 1821 },
+            { name: '咸豐', start: new Date(1851, 0, 1), end: new Date(1861, 11, 31), baseYear: 1851 },
+            { name: '同治', start: new Date(1862, 0, 1), end: new Date(1874, 11, 31), baseYear: 1862 },
+            { name: '光緒', start: new Date(1875, 0, 1), end: new Date(1908, 11, 31), baseYear: 1875 },
+            { name: '宣統', start: new Date(1909, 0, 1), end: new Date(1912, 0, 31), baseYear: 1909 }, // 台灣1912年1月結束
+            // 日治時期
+            { name: '明治', start: new Date(1895, 0, 1), end: new Date(1912, 6, 30), baseYear: 1868 }, // 台灣從1895年開始
+            { name: '大正', start: new Date(1912, 6, 30), end: new Date(1926, 11, 25), baseYear: 1912 },
+            { name: '昭和', start: new Date(1926, 11, 25), end: new Date(1945, 7, 15), baseYear: 1926 }, // 台灣至1945年8月15日
+            // 中華民國時期
+            { name: '民國', start: new Date(1945, 9, 25), end: new Date(2099, 11, 31), baseYear: 1912 } // 台灣光復從1945年10月25日開始
+        ];
+
+        // 日本年號資料
+        const japaneseEras = [
+            { name: '明治', nameKana: 'めいじ', start: new Date(1868, 9, 23), end: new Date(1912, 6, 30) }, // 明治45年7月30日
+            { name: '大正', nameKana: 'たいしょう', start: new Date(1912, 6, 30), end: new Date(1926, 11, 25) }, // 大正15年12月25日
+            { name: '昭和', nameKana: 'しょうわ', start: new Date(1926, 11, 25), end: new Date(1989, 0, 7) }, // 昭和64年1月7日
+            { name: '平成', nameKana: 'へいせい', start: new Date(1989, 0, 8), end: new Date(2019, 3, 30) }, // 平成31年4月30日
+            { name: '令和', nameKana: 'れいわ', start: new Date(2019, 4, 1), end: new Date(2099, 11, 31) } // 令和継続中
+        ];
+
+        // 獲取台灣年號
+        function getTaiwanEra(year, month) {
+            const date = new Date(year, month - 1, 1);
+            for (const era of taiwanEras) {
+                if (date >= era.start && date <= era.end) {
+                    let eraYear;
+                    if (era.name === '永曆') {
+                        // 永曆年號特殊計算：永曆1年=1647年
+                        eraYear = year - 1646;
+                    } else if (era.name === '康熙' && year >= 1683) {
+                        // 康熙在台灣從1683年開始，但康熙1年=1662年
+                        eraYear = year - 1661;
+                    } else if (era.name === '明治' && year >= 1895) {
+                        // 明治在台灣從1895年開始，但明治1年=1868年
+                        eraYear = year - 1867;
+                    } else if (era.name === '民國' && year >= 1945) {
+                        // 民國在台灣從1945年開始，但民國1年=1912年
+                        eraYear = year - 1911;
+                    } else {
+                        eraYear = year - era.baseYear + 1;
+                    }
+                    return {
+                        name: era.name,
+                        year: eraYear === 1 ? '元' : eraYear
+                    };
                 }
+            }
+            return null;
+        }
 
+        // 獲取日本年號
+        function getJapaneseEra(year, month) {
+            const date = new Date(year, month - 1, 1);
+            for (const era of japaneseEras) {
+                if (date >= era.start && date <= era.end) {
+                    const eraYear = year - era.start.getFullYear() + 1;
+                    return {
+                        name: era.name,
+                        nameKana: era.nameKana,
+                        year: eraYear === 1 ? '元' : eraYear
+                    };
+                }
+            }
+            return null;
+        }
 
-        
+        // 獲取台灣民國年份
+        function getROCYear(year) {
+            return year - 1911;
+        }
+
         // 根據政府行政機關辦公日曆表更新的台灣節日資料
         const holidays = {
             taiwan: {
@@ -793,13 +880,6 @@
             }, 500);
         }
 
-        // 獲取令和年份
-        function getReiwaYear(year) {
-            if (year < 2019) return '';
-            const reiwaYear = year - 2018;
-            return reiwaYear === 1 ? '元' : reiwaYear.toString();
-        }
-
         function createMonthCalendar(year, month, country, weekStart) {
             const monthNames = [
                 '', '一月', '二月', '三月', '四月', '五月', '六月',
@@ -868,21 +948,58 @@
         }
 
         function getMonthHeaderText(year, month, country) {
+            const rocYear = getROCYear(year);
+            const taiwanEra = getTaiwanEra(year, month);
+            const japaneseEra = getJapaneseEra(year, month);
+            
             switch(country) {
                 case 'taiwan-en-full':
                 case 'taiwan-en-short':
                 case 'taiwan-en-abbr':
                     const monthNames = ['', 'January', 'February', 'March', 'April', 'May', 'June',
                                        'July', 'August', 'September', 'October', 'November', 'December'];
-                    return `${monthNames[month]} ${year}`;
+                    let eraInfo = `民國 ${rocYear} 年`;
+                    if (taiwanEra && taiwanEra.name !== '民國') {
+                        if (year < 1912) {
+                            // 1912年以前只顯示歷史年號
+                            eraInfo = `${taiwanEra.name}${taiwanEra.year}年`;
+                        } else {
+                            // 1912年以後顯示雙重年號
+                            eraInfo = `${taiwanEra.name}${taiwanEra.year}年 / 民國 ${rocYear} 年`;
+                        }
+                    }
+                    return `${monthNames[month]} ${year}<div class="era-info">${eraInfo}</div>`;
+                    
                 case 'japan':
-                    return `${year}<ruby>年<rt>ねん</rt></ruby> (<ruby>令和<rt>れいわ</rt></ruby>${getReiwaYear(year)}<ruby>年<rt>ねん</rt></ruby>) ${month}<ruby>月<rt>${japaneseMonths[month]}</rt></ruby>`;
+                    if (japaneseEra) {
+                        return `${year}<ruby>年<rt>ねん</rt></ruby> ${month}<ruby>月<rt>${japaneseMonths[month]}</rt></ruby><div class="era-info"><ruby>${japaneseEra.name}<rt>${japaneseEra.nameKana}</rt></ruby>${japaneseEra.year}<ruby>年<rt>ねん</rt></ruby></div>`;
+                    }
+                    return `${year}<ruby>年<rt>ねん</rt></ruby> ${month}<ruby>月<rt>${japaneseMonths[month]}</rt></ruby>`;
+                    
                 case 'japan-hiragana':
-                    return `${year}ねん (れいわ${getReiwaYear(year)}ねん) ${month}がつ`;
+                    if (japaneseEra) {
+                        return `${year}ねん ${month}がつ<div class="era-info">${japaneseEra.nameKana}${japaneseEra.year}ねん</div>`;
+                    }
+                    return `${year}ねん ${month}がつ`;
+                    
                 case 'japan-kanji':
-                    return `${year}年 (令和${getReiwaYear(year)}年) ${month}月`;
+                    if (japaneseEra) {
+                        return `${year}年 ${month}月<div class="era-info">${japaneseEra.name}${japaneseEra.year}年</div>`;
+                    }
+                    return `${year}年 ${month}月`;
+                    
                 default:
-                    return `${year} 年 ${month} 月`;
+                    let taiwanEraInfo = `民國 ${rocYear} 年`;
+                    if (taiwanEra && taiwanEra.name !== '民國') {
+                        if (year < 1912) {
+                            // 1912年以前只顯示歷史年號
+                            taiwanEraInfo = `${taiwanEra.name}${taiwanEra.year}年`;
+                        } else {
+                            // 1912年以後顯示雙重年號
+                            taiwanEraInfo = `${taiwanEra.name}${taiwanEra.year}年 / 民國 ${rocYear} 年`;
+                        }
+                    }
+                    return `${year} 年 ${month} 月<div class="era-info">${taiwanEraInfo}</div>`;
             }
         }
 
@@ -1093,6 +1210,15 @@
             return html;
         }
 
+        function clearAll() {
+            document.getElementById('year').value = new Date().getFullYear();
+            document.getElementById('startMonth').value = 1;
+            document.getElementById('monthCount').value = 12;
+            document.getElementById('country').value = 'taiwan';
+            document.getElementById('weekStart').value = 1;
+            document.getElementById('calendarGrid').innerHTML = '';
+        }
+
         function showMessage(message, type) {
             const existingMessages = document.querySelectorAll('.success-message, .error-message');
             existingMessages.forEach(msg => msg.remove());
@@ -1119,4 +1245,3 @@
     </script>
 </body>
 </html>
-                        '
